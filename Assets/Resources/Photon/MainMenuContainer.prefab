@@ -38,10 +38,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1301645845030256311}
     m_Modifications:
-    - target: {fileID: 8352037888459428, guid: 46be1747025417346b197ef019ab9afa, type: 3}
-      propertyPath: m_Name
-      value: LobbyMenu
-      objectReference: {fileID: 0}
     - target: {fileID: 8352037888459433, guid: 46be1747025417346b197ef019ab9afa, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -137,6 +133,10 @@ PrefabInstance:
     - target: {fileID: 8352037888459433, guid: 46be1747025417346b197ef019ab9afa, type: 3}
       propertyPath: m_LocalScale.z
       value: 0.001
+      objectReference: {fileID: 0}
+    - target: {fileID: 8352037888459428, guid: 46be1747025417346b197ef019ab9afa, type: 3}
+      propertyPath: m_Name
+      value: LobbyMenu
       objectReference: {fileID: 0}
     - target: {fileID: 8352037888459432, guid: 46be1747025417346b197ef019ab9afa, type: 3}
       propertyPath: m_RenderMode
