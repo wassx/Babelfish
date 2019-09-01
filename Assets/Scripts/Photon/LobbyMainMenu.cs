@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
-using XRTK.Utilities;
+using Debug = UnityEngine.Debug;
 
 namespace Photon {
     public class LobbyMainMenu : MonoBehaviourPunCallbacks {
