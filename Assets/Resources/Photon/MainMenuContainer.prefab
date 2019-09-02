@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1301645845030256311}
+  - component: {fileID: 129135189}
+  - component: {fileID: 129135190}
   m_Layer: 0
   m_Name: MainMenuContainer
   m_TagString: Untagged
@@ -31,6 +33,49 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &129135189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1301645845030256310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e725c11bfa74d9186ef4986d716366e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updateLinkedTransform: 0
+  moveLerpTime: 0.1
+  rotateLerpTime: 0.1
+  scaleLerpTime: 0
+  maintainScale: 1
+  smoothing: 1
+  lifetime: 0
+  SolverHandler: {fileID: 129135190}
+  orientationType: 0
+  localOffset: {x: 0, y: 0, z: 1.8}
+  worldOffset: {x: 0, y: 0, z: 0}
+  useAngleSteppingForWorldOffset: 1
+  tetherAngleSteps: 6
+--- !u!114 &129135190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1301645845030256310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41cca1ff11ac4116abc9c95f8af34afa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handedness: 0
+  trackedObjectToReference: 0
+  additionalOffset: {x: 0, y: 0, z: 0}
+  additionalRotation: {x: 0, y: 0, z: 0}
+  transformTarget: {fileID: 0}
+  updateSolvers: 1
 --- !u!1001 &1301645844678672815
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -142,23 +187,17 @@ PrefabInstance:
       propertyPath: m_RenderMode
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 8352037888459432, guid: 46be1747025417346b197ef019ab9afa, type: 3}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 8352037969571519, guid: 46be1747025417346b197ef019ab9afa, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -74
       objectReference: {fileID: 0}
-    - target: {fileID: 3889961868402352334, guid: 46be1747025417346b197ef019ab9afa,
-        type: 3}
-      propertyPath: _playerPrefab
-      value: 
-      objectReference: {fileID: 6876568754644370542, guid: 3b8895d84a1bfa74a9008c32dab3d64b,
-        type: 3}
+    - target: {fileID: 8352037969571516, guid: 46be1747025417346b197ef019ab9afa, type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 8352037969571516, guid: 46be1747025417346b197ef019ab9afa, type: 3}
       propertyPath: m_Text
-      value: MR Dev Summit Hackathon
+      value: Hackfest Klagenfurt
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46be1747025417346b197ef019ab9afa, type: 3}

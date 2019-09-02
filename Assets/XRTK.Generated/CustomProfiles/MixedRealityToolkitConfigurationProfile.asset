@@ -18,7 +18,7 @@ MonoBehaviour:
     reference: XRTK.Services.CameraSystem.MixedRealityCameraSystem, XRTK
   cameraProfile: {fileID: 11400000, guid: 2b0ab6f5348646cebf8585d46c3a3edc, type: 2}
   enableInputSystem: 1
-  inputSystemProfile: {fileID: 11400000, guid: a176466fbf4e44a087639abca7e5ba47, type: 2}
+  inputSystemProfile: {fileID: 11400000, guid: cc371950ca9a91141947afcbf0a88857, type: 2}
   inputSystemType:
     reference: XRTK.Services.InputSystem.MixedRealityInputSystem, XRTK
   enableBoundarySystem: 1

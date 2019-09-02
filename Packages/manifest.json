@@ -8,6 +8,7 @@
     "com.unity.textmeshpro": "2.0.1",
     "com.unity.timeline": "1.0.0",
     "com.unity.xr.oculus.android": "1.38.2",
+    "com.unity.xr.windowsmr.metro": "1.0.14",
     "com.xrtk.core": "https://github.com/XRTK/XRTK-Core.git#0.1.17",
     "com.xrtk.lumin": "https://github.com/XRTK/Lumin.git#0.1.5",
     "com.xrtk.oculus": "https://github.com/XRTK/Oculus.git#0.1.2",
