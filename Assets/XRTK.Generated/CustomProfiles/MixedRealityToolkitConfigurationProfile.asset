@@ -37,7 +37,7 @@ MonoBehaviour:
     type: 2}
   networkingSystemProfile: {fileID: 11400000, guid: 72aa9c32198a4dce9219e6ab19d5dc6f,
     type: 2}
-  enableNetworkingSystem: 1
+  enableNetworkingSystem: 0
   networkingSystemType:
     reference: XRTK.Services.NetworkingSystem.MixedRealityNetworkingSystem, XRTK
   diagnosticsSystemProfile: {fileID: 11400000, guid: 9be0c5afc495463d8547a80997d46187,
