@@ -18,6 +18,5 @@ public class CubeClickhandler : MonoBehaviour {
         babbelfish.OnStartSpeech();
         await new WaitForSeconds(2);
         _renderer.material.color = _active;
-        
     }
 }

@@ -46,16 +46,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   updateLinkedTransform: 0
-  moveLerpTime: 0.1
-  rotateLerpTime: 0.1
+  moveLerpTime: 0.2
+  rotateLerpTime: 0.2
   scaleLerpTime: 0
   maintainScale: 1
   smoothing: 1
   lifetime: 0
   SolverHandler: {fileID: 129135190}
-  orientationType: 0
-  localOffset: {x: 0, y: 0, z: 1.8}
-  worldOffset: {x: 0, y: 0, z: 0}
+  orientationType: 2
+  localOffset: {x: 0, y: 0, z: 0}
+  worldOffset: {x: 0, y: -0.2, z: 1.2}
   useAngleSteppingForWorldOffset: 1
   tetherAngleSteps: 6
 --- !u!114 &129135190
@@ -186,10 +186,6 @@ PrefabInstance:
     - target: {fileID: 8352037888459432, guid: 46be1747025417346b197ef019ab9afa, type: 3}
       propertyPath: m_RenderMode
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8352037888459432, guid: 46be1747025417346b197ef019ab9afa, type: 3}
-      propertyPath: m_Camera
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8352037969571519, guid: 46be1747025417346b197ef019ab9afa, type: 3}
       propertyPath: m_AnchoredPosition.y
