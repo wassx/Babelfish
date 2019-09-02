@@ -12,6 +12,7 @@ public class Babbelfish : MonoBehaviour {
 
     public async void OnStartSpeech() {
         string result = await _translationService.RecognizeSpeech();
+        Debug.LogWarning("Text result: " + result);
         _textSyncScript.SetText(result);
     }
 
