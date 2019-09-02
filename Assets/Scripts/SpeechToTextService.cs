@@ -4,7 +4,7 @@ using XRTK.Definitions;
 using XRTK.Services;
 
 public class SpeechToTextService : BaseExtensionService  {
-    private readonly SpeechConfig _config = SpeechConfig.FromSubscription("433296e9a13c48928cdeef3d4d1433d1", "northeurope");
+    private readonly SpeechConfig _config = SpeechConfig.FromSubscription("<azureid>", "northeurope");
     private readonly object _threadLocker = new object();
     private bool waitingForReco;
     private string _message;
