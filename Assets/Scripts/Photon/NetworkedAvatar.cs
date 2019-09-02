@@ -6,7 +6,6 @@ namespace Photon {
     public class NetworkedAvatar : MonoBehaviour {
         [SerializeField] private GameObject _avatarPrefab;
 
-        // Start is called before the first frame update
         void Start() {
             GameObject instantiate = PhotonNetwork.Instantiate(_avatarPrefab.name,
                 CameraCache.Main.gameObject.transform.position,
