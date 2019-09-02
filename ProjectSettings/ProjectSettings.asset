@@ -732,10 +732,10 @@ PlayerSettings:
       WebCam: False
   metroTargetDeviceFamilies:
     Desktop: False
-    Holographic: False
+    Holographic: True
     IoT: False
     IoTHeadless: False
-    Mobile: False
+    Mobile: True
     Team: False
     Xbox: False
   metroFTAName: 
