@@ -45,5 +45,5 @@ MonoBehaviour:
   enableDiagnosticsSystem: 1
   diagnosticsSystemType:
     reference: XRTK.Services.DiagnosticsSystem.MixedRealityDiagnosticsSystem, XRTK
-  registeredServiceProvidersProfile: {fileID: 11400000, guid: acea2c25fd504369954fa833a8c4ea5b,
+  registeredServiceProvidersProfile: {fileID: 11400000, guid: ae1a8706553dd3f41b6130b3135e0cb5,
     type: 2}
