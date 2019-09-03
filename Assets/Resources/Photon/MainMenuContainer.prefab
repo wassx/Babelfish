@@ -187,14 +187,14 @@ PrefabInstance:
       propertyPath: m_RenderMode
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 8352037888459432, guid: 46be1747025417346b197ef019ab9afa, type: 3}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 8352037969571519, guid: 46be1747025417346b197ef019ab9afa, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -74
       objectReference: {fileID: 0}
+    - target: {fileID: 8352037969571516, guid: 46be1747025417346b197ef019ab9afa, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     - target: {fileID: 8352037969571516, guid: 46be1747025417346b197ef019ab9afa, type: 3}
       propertyPath: m_FontData.m_FontSize
       value: 50
@@ -203,7 +203,16 @@ PrefabInstance:
       propertyPath: m_Text
       value: Hackfest Klagenfurt
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8352038114288962, guid: 46be1747025417346b197ef019ab9afa, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 8352038338866033, guid: 46be1747025417346b197ef019ab9afa, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_RemovedComponents:
+    - {fileID: 359848627016385650, guid: 46be1747025417346b197ef019ab9afa, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 46be1747025417346b197ef019ab9afa, type: 3}
 --- !u!224 &1300964000176112390 stripped
 RectTransform:

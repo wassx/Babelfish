@@ -1,11 +1,15 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
 using XRTK.Services;
 
-public class Babbelfish : MonoBehaviour {
+public class Babbelfish : MonoBehaviourPun {
     private SpeechToTextService _translationService;
     private TextSync _textSyncScript;
 
     private void Start() {
+        if (!photonView.IsMine) {
+            Destroy(gameObject);
+        }
         _translationService = MixedRealityToolkit.GetService<SpeechToTextService>();
         _translationService.OnRecognitionSuccessful += OnTranslationSuccessful;
         _textSyncScript = GetComponent<TextSync>();
