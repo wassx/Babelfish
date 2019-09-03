@@ -7,16 +7,23 @@ public class Babbelfish : MonoBehaviour {
 
     private void Start() {
         _translationService = MixedRealityToolkit.GetService<SpeechToTextService>();
+        _translationService.OnRecognitionSuccessful += OnTranslationSuccessful;
         _textSyncScript = GetComponent<TextSync>();
     }
 
-    public async void OnStartSpeech() {
-        string result = await _translationService.RecognizeSpeech();
-        Debug.LogWarning("Text result: " + result);
+    private void OnDestroy() {
+        _translationService.OnRecognitionSuccessful -= OnTranslationSuccessful;
+    }
+
+    private void OnTranslationSuccessful(string result) {
         _textSyncScript.SetText(result);
     }
 
+    public async void OnStartSpeech() {
+        await _translationService.StartRecognizeSpeech();
+    }
+
     public void OnStopSpeech() {
-        _translationService.IsListening = false;
+        _translationService.StopRecognition();
     }
 }
