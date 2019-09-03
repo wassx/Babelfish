@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Translation;
@@ -12,8 +13,9 @@ public class SpeechToTextService : BaseExtensionService {
     private readonly SpeechTranslationConfig config =
         SpeechTranslationConfig.FromSubscription("433296e9a13c48928cdeef3d4d1433d1", "northeurope");
 
-    private readonly object _threadLocker = new object();
     private bool _isListening;
+    private readonly object _threadLocker = new object();
+    private readonly Queue<Action> _dispatchQueue = new Queue<Action>();
 
     public SpeechToTextService(string name, uint priority, BaseMixedRealityExtensionServiceProfile profile) : base(name,
         priority, profile) { }
@@ -32,7 +34,7 @@ public class SpeechToTextService : BaseExtensionService {
 
         // Translation target language(s).
         // Replace with language(s) of your choice.
-        config.AddTargetLanguage("de");
+        config.AddTargetLanguage("ar");
 
         // Creates a translation recognizer using microphone as audio input.
         using (var recognizer = new TranslationRecognizer(config)) {
@@ -57,7 +59,10 @@ public class SpeechToTextService : BaseExtensionService {
                         message += " " + element.Value;
                     }
 
-                    OnRecognitionSuccessful?.Invoke(message);
+                    QueueOnUpdate(() => {
+                        OnRecognitionSuccessful?.Invoke(message);
+                    });
+                    
                 } else if (e.Result.Reason == ResultReason.RecognizedSpeech) {
                     Debug.Log($"RECOGNIZED: Text={e.Result.Text}");
                     Debug.Log($"    Speech not translated.");
@@ -115,6 +120,19 @@ public class SpeechToTextService : BaseExtensionService {
     public void StopRecognition() {
         lock (_threadLocker) {
             _isListening = false;
+        }
+    }
+    public override void Update() {
+        lock (_dispatchQueue) {
+            if (_dispatchQueue.Count > 0) {
+                _dispatchQueue.Dequeue()();
+            }
+        }
+    }
+    
+    private void QueueOnUpdate(Action updateAction) {
+        lock (_dispatchQueue) {
+            _dispatchQueue.Enqueue(updateAction);
         }
     }
 }
