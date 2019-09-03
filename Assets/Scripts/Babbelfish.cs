@@ -16,4 +16,7 @@ public class Babbelfish : MonoBehaviour {
         _textSyncScript.SetText(result);
     }
 
+    public void OnStopSpeech() {
+        _translationService.IsListening = false;
+    }
 }

@@ -8,15 +8,18 @@ public class CubeClickhandler : MonoBehaviour {
     private Color _listening = new Color(0.3f,0.4f,1f);
 
     private void Start() {
+        
         _renderer = gameObject.GetComponent<Renderer>();
         _renderer.material.color = _active;
     }
 
-    public async void OnCubeClicked() {
+    public void OnStartListening() {
         _renderer.material.color = _listening;
-        Babbelfish babbelfish = CameraCache.Main.GetComponentInChildren<Babbelfish>();
-        babbelfish.OnStartSpeech();
-        await new WaitForSeconds(2);
+        CameraCache.Main.GetComponentInChildren<Babbelfish>().OnStartSpeech();
+    }
+    
+    public void OnStopListening() {
         _renderer.material.color = _active;
+        CameraCache.Main.GetComponentInChildren<Babbelfish>().OnStopSpeech();
     }
 }
