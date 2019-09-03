@@ -34,7 +34,9 @@ public class SpeechToTextService : BaseExtensionService {
 
         // Translation target language(s).
         // Replace with language(s) of your choice.
+        config.AddTargetLanguage("de");
         config.AddTargetLanguage("ar");
+        config.AddTargetLanguage("ja");
 
         // Creates a translation recognizer using microphone as audio input.
         using (var recognizer = new TranslationRecognizer(config)) {
@@ -56,7 +58,7 @@ public class SpeechToTextService : BaseExtensionService {
                     string message = "";
                     foreach (var element in e.Result.Translations) {
                         Debug.Log($"    TRANSLATED into '{element.Key}': {element.Value}");
-                        message += " " + element.Value;
+                        message += "\n" + element.Value;
                     }
 
                     QueueOnUpdate(() => {
