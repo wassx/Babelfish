@@ -37,7 +37,7 @@ MonoBehaviour:
       reference: XRTK.Providers.Controllers.OpenVR.OpenVRDataProvider, XRTK
     dataProviderName: Open VR Controller Data Provider
     priority: 2
-    runtimePlatform: 0
+    runtimePlatform: 32
     profile: {fileID: 0}
   - dataProviderType:
       reference: XRTK.WindowsMixedReality.Controllers.WindowsMixedRealityDataProvider,
@@ -69,5 +69,5 @@ MonoBehaviour:
       reference: XRTK.Oculus.Controllers.OculusControllerDataProvider, XRTK.Oculus
     dataProviderName: Oculus Controller Data Provider
     priority: 1
-    runtimePlatform: 32
+    runtimePlatform: 0
     profile: {fileID: 0}

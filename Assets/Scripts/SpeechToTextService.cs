@@ -9,7 +9,7 @@ using XRTK.Services;
 
 public class SpeechToTextService : BaseExtensionService {
     public Action<string> OnRecognitionSuccessful;
-    
+
     private readonly SpeechTranslationConfig config =
         SpeechTranslationConfig.FromSubscription("433296e9a13c48928cdeef3d4d1433d1", "northeurope");
 
@@ -28,7 +28,7 @@ public class SpeechToTextService : BaseExtensionService {
 
         // Voice name of synthesis output.
         const string GermanVoice = "Microsoft Server Speech Text to Speech Voice (de-DE, Hedda)";
-        
+
         config.SpeechRecognitionLanguage = fromLanguage;
         config.VoiceName = GermanVoice;
 
@@ -53,24 +53,21 @@ public class SpeechToTextService : BaseExtensionService {
             };
 
             recognizer.Recognized += (s, e) => {
+                string message = "";
                 if (e.Result.Reason == ResultReason.TranslatedSpeech) {
                     Debug.Log($"RECOGNIZED in '{fromLanguage}': Text={e.Result.Text}");
-                    string message = "";
                     foreach (var element in e.Result.Translations) {
                         Debug.Log($"    TRANSLATED into '{element.Key}': {element.Value}");
                         message += "\n" + element.Value;
                     }
-
-                    QueueOnUpdate(() => {
-                        OnRecognitionSuccessful?.Invoke(message);
-                    });
-                    
                 } else if (e.Result.Reason == ResultReason.RecognizedSpeech) {
                     Debug.Log($"RECOGNIZED: Text={e.Result.Text}");
                     Debug.Log($"    Speech not translated.");
                 } else if (e.Result.Reason == ResultReason.NoMatch) {
-                    Debug.Log($"NOMATCH: Speech could not be recognized.");
+                    message = "NOMATCH: Speech could not be recognized.";
                 }
+
+                QueueOnUpdate(() => { OnRecognitionSuccessful?.Invoke(message); });
             };
 
             recognizer.Synthesizing += (s, e) => {
@@ -87,6 +84,14 @@ public class SpeechToTextService : BaseExtensionService {
                             simpleSound.PlaySync();
                         }
 #endif
+                    
+                    QueueOnUpdate(() => {
+                        float[] data = ConvertByteToFloat(audio);
+                        AudioClip audioClip = AudioClip.Create("testSound", data.Length, 1, 44100, false, false);
+                        audioClip.SetData(data, 0);
+                        AudioSource.PlayClipAtPoint(audioClip, new Vector3(100, 100, 0), 1.0f);
+                    });
+                    
                 }
             };
 
@@ -124,6 +129,7 @@ public class SpeechToTextService : BaseExtensionService {
             _isListening = false;
         }
     }
+
     public override void Update() {
         lock (_dispatchQueue) {
             if (_dispatchQueue.Count > 0) {
@@ -131,10 +137,22 @@ public class SpeechToTextService : BaseExtensionService {
             }
         }
     }
-    
+
     private void QueueOnUpdate(Action updateAction) {
         lock (_dispatchQueue) {
             _dispatchQueue.Enqueue(updateAction);
         }
     }
+    
+    private float[] ConvertByteToFloat(byte[] array) 
+    {
+        float[] floatArr = new float[array.Length / 4];
+        for (int i = 0; i < floatArr.Length; i++) 
+        {
+            if (BitConverter.IsLittleEndian) 
+                Array.Reverse(array, i * 4, 4);
+            floatArr[i] = BitConverter.ToSingle(array, i*4) / 0x80000000;
+        }
+        return floatArr;
+    } 
 }

@@ -25,7 +25,7 @@ MonoBehaviour:
     type: 2}
   controllerDataProvidersProfile: {fileID: 11400000, guid: b18d47be0e802ad44ad210fdc617149e,
     type: 2}
-  controllerMappingProfiles: {fileID: 11400000, guid: f83e1d143c5a46dba5e70f497a7a996d,
+  controllerMappingProfiles: {fileID: 11400000, guid: f13e82efec3692d41ac71f06222b52a7,
     type: 2}
   controllerVisualizationProfile: {fileID: 11400000, guid: c70ebb28730966f4089685a4573b48d9,
     type: 2}
