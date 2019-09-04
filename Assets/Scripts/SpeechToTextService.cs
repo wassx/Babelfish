@@ -11,7 +11,7 @@ public class SpeechToTextService : BaseExtensionService {
     public Action<Dictionary<string, string>> OnTranslationSuccessful;
 
     private const string Region = "northeurope";
-    private const string SubscriptionKey = "<yourid>";
+    private const string SubscriptionKey = "<yourkey>";
 
     private readonly SpeechTranslationConfig
         _config = SpeechTranslationConfig.FromSubscription(SubscriptionKey, Region);

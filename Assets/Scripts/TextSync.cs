@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
+using XRTK.Services;
 
 public class TextSync : MonoBehaviour, IPunObservable {
     [SerializeField] private Text _text;
+    private TextToSpeechService _textToSpeechService;
 
     private void Awake() {
-        // Optional get handle to TextToSpeechService
+        _textToSpeechService = MixedRealityToolkit.GetService<TextToSpeechService>();
     }
 
     public async void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
@@ -18,8 +20,7 @@ public class TextSync : MonoBehaviour, IPunObservable {
             String text = (string) stream.ReceiveNext();
             if (_text.text != text) {
                 _text.text = text;
-
-                // Optional call speech synthesis in TextToSpeechService
+                await _textToSpeechService.TextToSpeech(text);
             }
         }
     }

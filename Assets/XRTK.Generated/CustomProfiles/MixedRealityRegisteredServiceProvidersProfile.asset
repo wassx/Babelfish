@@ -20,3 +20,9 @@ MonoBehaviour:
     priority: 0
     runtimePlatform: -1
     configurationProfile: {fileID: 0}
+  - componentType:
+      reference: TextToSpeechService, Assembly-CSharp
+    componentName: TextToSpeechService 1
+    priority: 1
+    runtimePlatform: -1
+    configurationProfile: {fileID: 0}
