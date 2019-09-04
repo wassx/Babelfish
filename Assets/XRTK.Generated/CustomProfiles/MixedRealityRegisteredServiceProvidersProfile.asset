@@ -13,16 +13,4 @@ MonoBehaviour:
   m_Name: MixedRealityRegisteredServiceProvidersProfile
   m_EditorClassIdentifier: 
   isCustomProfile: 1
-  configurations:
-  - componentType:
-      reference: SpeechToTextService, Assembly-CSharp
-    componentName: SpeechToTextService
-    priority: 0
-    runtimePlatform: -1
-    configurationProfile: {fileID: 0}
-  - componentType:
-      reference: TextToSpeechService, Assembly-CSharp
-    componentName: TextToSpeechService
-    priority: 1
-    runtimePlatform: -1
-    configurationProfile: {fileID: 0}
+  configurations: []
