@@ -10,44 +10,38 @@ using XRTK.Services;
 public class SpeechToTextService : BaseExtensionService {
     public Action<string> OnRecognitionSuccessful;
 
+    private const string FromLanguage = "en-US";
+    private const string GermanVoice = "Microsoft Server Speech Text to Speech Voice (de-DE, Hedda)";
+    
     private readonly SpeechTranslationConfig config =
         SpeechTranslationConfig.FromSubscription("76f89a5ca8dd42cf802bf7173b01359b", "northeurope");
 
-    private bool _isListening;
     private readonly object _threadLocker = new object();
     private readonly Queue<Action> _dispatchQueue = new Queue<Action>();
+    
+    private bool _isListening;
 
     public SpeechToTextService(string name, uint priority, BaseMixedRealityExtensionServiceProfile profile) : base(name,
         priority, profile) { }
 
     public async Task StartRecognizeSpeech() {
-        // <TranslationWithMicrophoneAsync>
-        // Translation source language.
-        // Replace with a language of your choice.
-        string fromLanguage = "en-US";
 
-        // Voice name of synthesis output.
-        const string GermanVoice = "Microsoft Server Speech Text to Speech Voice (de-DE, Hedda)";
-
-        config.SpeechRecognitionLanguage = fromLanguage;
+        config.SpeechRecognitionLanguage = FromLanguage;
         config.VoiceName = GermanVoice;
 
-        // Translation target language(s).
-        // Replace with language(s) of your choice.
         config.AddTargetLanguage("de");
-        config.AddTargetLanguage("ar");
-        config.AddTargetLanguage("ja");
+//        config.AddTargetLanguage("ar");
+//        config.AddTargetLanguage("ja");
 
-        // Creates a translation recognizer using microphone as audio input.
-        using (var recognizer = new TranslationRecognizer(config)) {
+        using (TranslationRecognizer recognizer = new TranslationRecognizer(config)) {
             lock (_threadLocker) {
                 _isListening = true;
             }
 
             // Subscribes to events.
             recognizer.Recognizing += (s, e) => {
-                Debug.Log($"RECOGNIZING in '{fromLanguage}': Text={e.Result.Text}");
-                foreach (var element in e.Result.Translations) {
+                Debug.Log($"RECOGNIZING in '{FromLanguage}': Text={e.Result.Text}");
+                foreach (KeyValuePair<string, string> element in e.Result.Translations) {
                     Debug.Log($"    TRANSLATING into '{element.Key}': {element.Value}");
                 }
             };
@@ -55,8 +49,8 @@ public class SpeechToTextService : BaseExtensionService {
             recognizer.Recognized += (s, e) => {
                 string message = "";
                 if (e.Result.Reason == ResultReason.TranslatedSpeech) {
-                    Debug.Log($"RECOGNIZED in '{fromLanguage}': Text={e.Result.Text}");
-                    foreach (var element in e.Result.Translations) {
+                    Debug.Log($"RECOGNIZED in '{FromLanguage}': Text={e.Result.Text}");
+                    foreach (KeyValuePair<string, string> element in e.Result.Translations) {
                         Debug.Log($"    TRANSLATED into '{element.Key}': {element.Value}");
                         message += "\n" + element.Value;
                     }
@@ -141,7 +135,8 @@ public class SpeechToTextService : BaseExtensionService {
         for (int i = 0; i < floatArr.Length; i++) {
             if (BitConverter.IsLittleEndian)
                 Array.Reverse(array, i * 4, 4);
-            floatArr[i] = BitConverter.ToSingle(array, i * 4) / 0x80000000;
+//            floatArr[i] = BitConverter.ToSingle(array, i*4) / 0x80000000;
+            floatArr[i] = BitConverter.ToSingle(array, i*4);
         }
 
         return floatArr;

@@ -200,6 +200,10 @@ PrefabInstance:
       propertyPath: m_RenderMode
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8352037888459432, guid: 46be1747025417346b197ef019ab9afa, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8352037969571519, guid: 46be1747025417346b197ef019ab9afa, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -74
