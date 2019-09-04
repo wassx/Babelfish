@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Photon.Pun;
-using UnityEngine;
 using XRTK.Services;
 
 public class Babelfish : MonoBehaviourPun {
