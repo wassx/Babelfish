@@ -107,7 +107,6 @@ public class SpeechToTextService : BaseExtensionService {
         }
     }
 
-
     public override void Update() {
         lock (_dispatchQueue) {
             if (_dispatchQueue.Count > 0) {

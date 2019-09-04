@@ -14,6 +14,7 @@ public class Babbelfish : MonoBehaviourPun {
 
     private void OnDestroy() {
         _translationService.OnRecognitionSuccessful -= OnTranslationSuccessful;
+        _translationService.StopRecognition();
     }
 
     private void OnTranslationSuccessful(Dictionary<string, string> results) {
