@@ -11,7 +11,7 @@ public class SpeechToTextService : BaseExtensionService {
     public Action<string> OnRecognitionSuccessful;
 
     private readonly SpeechTranslationConfig config =
-        SpeechTranslationConfig.FromSubscription("433296e9a13c48928cdeef3d4d1433d1", "northeurope");
+        SpeechTranslationConfig.FromSubscription("76f89a5ca8dd42cf802bf7173b01359b", "northeurope");
 
     private bool _isListening;
     private readonly object _threadLocker = new object();
@@ -71,27 +71,19 @@ public class SpeechToTextService : BaseExtensionService {
             };
 
             recognizer.Synthesizing += (s, e) => {
-                var audio = e.Result.GetAudio();
+                byte[] audio = e.Result.GetAudio();
                 Debug.Log(audio.Length != 0
                     ? $"AudioSize: {audio.Length}"
                     : $"AudioSize: {audio.Length} (end of synthesis data)");
 
                 if (audio.Length > 0) {
-#if NET461
-                        using (var m = new MemoryStream(audio))
-                        {
-                            SoundPlayer simpleSound = new SoundPlayer(m);
-                            simpleSound.PlaySync();
-                        }
-#endif
-                    
+                    Wav wav = new Wav(audio);
                     QueueOnUpdate(() => {
-                        float[] data = ConvertByteToFloat(audio);
-                        AudioClip audioClip = AudioClip.Create("testSound", data.Length, 1, 44100, false, false);
-                        audioClip.SetData(data, 0);
-                        AudioSource.PlayClipAtPoint(audioClip, new Vector3(100, 100, 0), 1.0f);
+                        Debug.Log(wav);
+                        AudioClip audioClip = AudioClip.Create("testSound", wav.SampleCount, 1, wav.Frequency, false, false);
+                        audioClip.SetData(wav.LeftChannel, 0);
+                        AudioSource.PlayClipAtPoint(audioClip, new Vector3(0, 0, 0), 1.0f);
                     });
-                    
                 }
             };
 
@@ -143,16 +135,15 @@ public class SpeechToTextService : BaseExtensionService {
             _dispatchQueue.Enqueue(updateAction);
         }
     }
-    
-    private float[] ConvertByteToFloat(byte[] array) 
-    {
+
+    private float[] ConvertByteToFloat(byte[] array) {
         float[] floatArr = new float[array.Length / 4];
-        for (int i = 0; i < floatArr.Length; i++) 
-        {
-            if (BitConverter.IsLittleEndian) 
+        for (int i = 0; i < floatArr.Length; i++) {
+            if (BitConverter.IsLittleEndian)
                 Array.Reverse(array, i * 4, 4);
-            floatArr[i] = BitConverter.ToSingle(array, i*4) / 0x80000000;
+            floatArr[i] = BitConverter.ToSingle(array, i * 4) / 0x80000000;
         }
+
         return floatArr;
-    } 
+    }
 }
