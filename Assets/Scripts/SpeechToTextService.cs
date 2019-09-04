@@ -12,28 +12,34 @@ public class SpeechToTextService : BaseExtensionService {
 
     private const string FromLanguage = "en-US";
     private const string GermanVoice = "Microsoft Server Speech Text to Speech Voice (de-DE, Hedda)";
-    
-    private readonly SpeechTranslationConfig config =
-        SpeechTranslationConfig.FromSubscription("76f89a5ca8dd42cf802bf7173b01359b", "northeurope");
+
+    private const string SubscriptionKey = "76f89a5ca8dd42cf802bf7173b01359b";
+    private const string Region = "northeurope";
+
+    private readonly SpeechTranslationConfig _config = SpeechTranslationConfig.FromSubscription(SubscriptionKey, Region);
+    private readonly SpeechConfig _outputSpeechConfig = SpeechConfig.FromSubscription(SubscriptionKey, Region);
 
     private readonly object _threadLocker = new object();
     private readonly Queue<Action> _dispatchQueue = new Queue<Action>();
-    
+
     private bool _isListening;
 
     public SpeechToTextService(string name, uint priority, BaseMixedRealityExtensionServiceProfile profile) : base(name,
-        priority, profile) { }
+        priority, profile) {
+        _outputSpeechConfig.SpeechSynthesisLanguage = "de-DE";
+        _outputSpeechConfig.SpeechSynthesisVoiceName = GermanVoice;
 
-    public async Task StartRecognizeSpeech() {
+        _config.SpeechRecognitionLanguage = FromLanguage;
+        _config.VoiceName = GermanVoice;
+        _config.SpeechSynthesisLanguage = "de-DE";
 
-        config.SpeechRecognitionLanguage = FromLanguage;
-        config.VoiceName = GermanVoice;
-
-        config.AddTargetLanguage("de");
+        _config.AddTargetLanguage("de");
 //        config.AddTargetLanguage("ar");
 //        config.AddTargetLanguage("ja");
+    }
 
-        using (TranslationRecognizer recognizer = new TranslationRecognizer(config)) {
+    public async Task StartRecognizeSpeech() {
+        using (TranslationRecognizer recognizer = new TranslationRecognizer(_config)) {
             lock (_threadLocker) {
                 _isListening = true;
             }
@@ -102,18 +108,6 @@ public class SpeechToTextService : BaseExtensionService {
         // </TranslationWithMicrophoneAsync>
     }
 
-    private void PlayAudio(byte[] audio) {
-        if (audio.Length > 0) {
-            Wav wav = new Wav(audio);
-            QueueOnUpdate(() => {
-                Debug.Log(wav);
-                AudioClip audioClip = AudioClip.Create("testSound", wav.SampleCount, 1, wav.Frequency, false, false);
-                audioClip.SetData(wav.LeftChannel, 0);
-                AudioSource.PlayClipAtPoint(audioClip, new Vector3(0, 0, 0), 1.0f);
-            });
-        }
-    }
-
     public void StopRecognition() {
         lock (_threadLocker) {
             _isListening = false;
@@ -121,7 +115,7 @@ public class SpeechToTextService : BaseExtensionService {
     }
 
     public async Task TextToSpeech(string text) {
-        using (SpeechSynthesizer synthesizer = new SpeechSynthesizer(config, null)) {
+        using (SpeechSynthesizer synthesizer = new SpeechSynthesizer(_outputSpeechConfig, null)) {
             // Receive a text from "Text for Synthesizing" text box and synthesize it to speaker.
             using (SpeechSynthesisResult result = await synthesizer.SpeakTextAsync(text).ConfigureAwait(false)) {
                 // Checks result.
@@ -130,6 +124,21 @@ public class SpeechToTextService : BaseExtensionService {
                 }
             }
         }
+    }
+
+    private void PlayAudio(byte[] audio) {
+        int sampleCount = audio.Length / 2;
+        float[] audioData = new float[sampleCount];
+        for (int i = 0; i < sampleCount; ++i) {
+            audioData[i] = (short) (audio[i * 2 + 1] << 8 | audio[i * 2]) / 32768.0F;
+        }
+
+        // The default output audio format is 16K 16bit mono
+        QueueOnUpdate(() => {
+            AudioClip audioClip = AudioClip.Create("SynthesizedAudio", sampleCount, 1, 16000, false);
+            audioClip.SetData(audioData, 0);
+            AudioSource.PlayClipAtPoint(audioClip, new Vector3(0, 0, 0), 1.0f);
+        });
     }
 
     public override void Update() {
@@ -152,7 +161,7 @@ public class SpeechToTextService : BaseExtensionService {
             if (BitConverter.IsLittleEndian)
                 Array.Reverse(array, i * 4, 4);
 //            floatArr[i] = BitConverter.ToSingle(array, i*4) / 0x80000000;
-            floatArr[i] = BitConverter.ToSingle(array, i*4);
+            floatArr[i] = BitConverter.ToSingle(array, i * 4);
         }
 
         return floatArr;

@@ -9,7 +9,7 @@ public class TextSync : MonoBehaviour, IPunObservable {
     [SerializeField] private Text _text;
     private SpeechToTextService _translationService;
 
-    private void Start() {
+    private void Awake() {
         _translationService = MixedRealityToolkit.GetService<SpeechToTextService>();
     }
 
