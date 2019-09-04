@@ -70,15 +70,7 @@ public class SpeechToTextService : BaseExtensionService {
                     ? $"AudioSize: {audio.Length}"
                     : $"AudioSize: {audio.Length} (end of synthesis data)");
 
-                if (audio.Length > 0) {
-                    Wav wav = new Wav(audio);
-                    QueueOnUpdate(() => {
-                        Debug.Log(wav);
-                        AudioClip audioClip = AudioClip.Create("testSound", wav.SampleCount, 1, wav.Frequency, false, false);
-                        audioClip.SetData(wav.LeftChannel, 0);
-                        AudioSource.PlayClipAtPoint(audioClip, new Vector3(0, 0, 0), 1.0f);
-                    });
-                }
+                //PlayAudio(audio);
             };
 
             recognizer.Canceled += (s, e) => {
@@ -110,9 +102,33 @@ public class SpeechToTextService : BaseExtensionService {
         // </TranslationWithMicrophoneAsync>
     }
 
+    private void PlayAudio(byte[] audio) {
+        if (audio.Length > 0) {
+            Wav wav = new Wav(audio);
+            QueueOnUpdate(() => {
+                Debug.Log(wav);
+                AudioClip audioClip = AudioClip.Create("testSound", wav.SampleCount, 1, wav.Frequency, false, false);
+                audioClip.SetData(wav.LeftChannel, 0);
+                AudioSource.PlayClipAtPoint(audioClip, new Vector3(0, 0, 0), 1.0f);
+            });
+        }
+    }
+
     public void StopRecognition() {
         lock (_threadLocker) {
             _isListening = false;
+        }
+    }
+
+    public async Task TextToSpeech(string text) {
+        using (SpeechSynthesizer synthesizer = new SpeechSynthesizer(config, null)) {
+            // Receive a text from "Text for Synthesizing" text box and synthesize it to speaker.
+            using (SpeechSynthesisResult result = await synthesizer.SpeakTextAsync(text).ConfigureAwait(false)) {
+                // Checks result.
+                if (result.Reason == ResultReason.SynthesizingAudioCompleted) {
+                    PlayAudio(result.AudioData);
+                }
+            }
         }
     }
 
