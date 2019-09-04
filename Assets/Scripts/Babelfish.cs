@@ -1,31 +1,33 @@
 ﻿using Photon.Pun;
 using UnityEngine;
+using XRTK.Services;
 
 public class Babelfish : MonoBehaviourPun {
     private TextSync _textSync;
+    private SpeechToTextService _speechToTextService;
 
     private void Start() {
         _textSync = GetComponent<TextSync>();
 
         _textSync.SetText("This is a test");
-        // TODO: Get reference to speech to text service
+        _speechToTextService = MixedRealityToolkit.GetService<SpeechToTextService>();
         // TODO: add handlers for successful recognition result
     }
 
     private void OnDestroy() {
-        // Stop recognition
+        _speechToTextService.StopRecognizeSpeech();
         // Remove handler
     }
 
     public async void OnStartSpeech() {
         Debug.Log("Babelfish starts listening.");
         _textSync.SetText("Babelfish starts listening.");
-        // TODO: Start speech recognition by calling service
+        await _speechToTextService.StartRecognizeSpeech();
     }
 
     public void OnStopSpeech() {
         Debug.Log("Babelfish stops listening.");
         _textSync.SetText("Babelfish stops listening.");
-        // TODO: Stop speech recognition by calling service
+        _speechToTextService.StopRecognizeSpeech();
     }
 }
