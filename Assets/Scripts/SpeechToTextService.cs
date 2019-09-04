@@ -16,8 +16,8 @@ public class SpeechToTextService : BaseExtensionService {
     private const string SubscriptionKey = "76f89a5ca8dd42cf802bf7173b01359b";
     private const string Region = "northeurope";
 
-    private readonly SpeechTranslationConfig _config = SpeechTranslationConfig.FromSubscription(SubscriptionKey, Region);
-    private readonly SpeechConfig _outputSpeechConfig = SpeechConfig.FromSubscription(SubscriptionKey, Region);
+    private readonly SpeechTranslationConfig
+        _config = SpeechTranslationConfig.FromSubscription(SubscriptionKey, Region);
 
     private readonly object _threadLocker = new object();
     private readonly Queue<Action> _dispatchQueue = new Queue<Action>();
@@ -26,9 +26,6 @@ public class SpeechToTextService : BaseExtensionService {
 
     public SpeechToTextService(string name, uint priority, BaseMixedRealityExtensionServiceProfile profile) : base(name,
         priority, profile) {
-        _outputSpeechConfig.SpeechSynthesisLanguage = "de-DE";
-        _outputSpeechConfig.SpeechSynthesisVoiceName = GermanVoice;
-
         _config.SpeechRecognitionLanguage = FromLanguage;
         _config.VoiceName = GermanVoice;
         _config.SpeechSynthesisLanguage = "de-DE";
@@ -75,8 +72,6 @@ public class SpeechToTextService : BaseExtensionService {
                 Debug.Log(audio.Length != 0
                     ? $"AudioSize: {audio.Length}"
                     : $"AudioSize: {audio.Length} (end of synthesis data)");
-
-                //PlayAudio(audio);
             };
 
             recognizer.Canceled += (s, e) => {
@@ -104,7 +99,6 @@ public class SpeechToTextService : BaseExtensionService {
             // Stops continuous recognition.
             await recognizer.StopContinuousRecognitionAsync().ConfigureAwait(false);
         }
-
     }
 
     public void StopRecognition() {
@@ -113,32 +107,6 @@ public class SpeechToTextService : BaseExtensionService {
         }
     }
 
-    public async Task TextToSpeech(string text) {
-        using (SpeechSynthesizer synthesizer = new SpeechSynthesizer(_outputSpeechConfig, null)) {
-            // Receive a text from "Text for Synthesizing" text box and synthesize it to speaker.
-            using (SpeechSynthesisResult result = await synthesizer.SpeakTextAsync(text).ConfigureAwait(false)) {
-                // Checks result.
-                if (result.Reason == ResultReason.SynthesizingAudioCompleted) {
-                    PlayAudio(result.AudioData);
-                }
-            }
-        }
-    }
-
-    private void PlayAudio(byte[] audio) {
-        int sampleCount = audio.Length / 2;
-        float[] audioData = new float[sampleCount];
-        for (int i = 0; i < sampleCount; ++i) {
-            audioData[i] = (short) (audio[i * 2 + 1] << 8 | audio[i * 2]) / 32768.0F;
-        }
-
-        // The default output audio format is 16K 16bit mono
-        QueueOnUpdate(() => {
-            AudioClip audioClip = AudioClip.Create("SynthesizedAudio", sampleCount, 1, 16000, false);
-            audioClip.SetData(audioData, 0);
-            AudioSource.PlayClipAtPoint(audioClip, new Vector3(0, 0, 0), 1.0f);
-        });
-    }
 
     public override void Update() {
         lock (_dispatchQueue) {
@@ -153,5 +121,4 @@ public class SpeechToTextService : BaseExtensionService {
             _dispatchQueue.Enqueue(updateAction);
         }
     }
-
 }
