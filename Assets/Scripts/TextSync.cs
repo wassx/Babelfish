@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.CognitiveServices.Speech;
+using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,12 +20,20 @@ public class TextSync : MonoBehaviour, IPunObservable {
             String text = (string) stream.ReceiveNext();
             if (_text.text != text) {
                 _text.text = text;
+
                 await _translationService.TextToSpeech(text);
             }
         }
     }
 
-    public void SetText(string text) {
-        _text.text = text;
+    public void SetText(Dictionary<string, string> results) {
+        string message = "";
+        foreach (string result in results.Values) {
+            message += result + "\n";
+        }
+
+        Debug.Log("results: " + message);
+        //results.TryGetValue("de", out message);
+        _text.text = message;
     }
 }

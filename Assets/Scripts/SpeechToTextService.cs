@@ -8,7 +8,7 @@ using XRTK.Definitions;
 using XRTK.Services;
 
 public class SpeechToTextService : BaseExtensionService {
-    public Action<string> OnRecognitionSuccessful;
+    public Action<Dictionary<string, string>> OnRecognitionSuccessful;
 
     private const string FromLanguage = "en-US";
     private const string GermanVoice = "Microsoft Server Speech Text to Speech Voice (de-DE, Hedda)";
@@ -34,8 +34,8 @@ public class SpeechToTextService : BaseExtensionService {
         _config.SpeechSynthesisLanguage = "de-DE";
 
         _config.AddTargetLanguage("de");
-//        config.AddTargetLanguage("ar");
-//        config.AddTargetLanguage("ja");
+        _config.AddTargetLanguage("ar");
+        _config.AddTargetLanguage("ja");
     }
 
     public async Task StartRecognizeSpeech() {
@@ -53,21 +53,21 @@ public class SpeechToTextService : BaseExtensionService {
             };
 
             recognizer.Recognized += (s, e) => {
-                string message = "";
+                Dictionary<string, string> results = new Dictionary<string, string>();
                 if (e.Result.Reason == ResultReason.TranslatedSpeech) {
                     Debug.Log($"RECOGNIZED in '{FromLanguage}': Text={e.Result.Text}");
                     foreach (KeyValuePair<string, string> element in e.Result.Translations) {
                         Debug.Log($"    TRANSLATED into '{element.Key}': {element.Value}");
-                        message += "\n" + element.Value;
+                        results.Add(element.Key, element.Value);
                     }
                 } else if (e.Result.Reason == ResultReason.RecognizedSpeech) {
                     Debug.Log($"RECOGNIZED: Text={e.Result.Text}");
                     Debug.Log($"    Speech not translated.");
                 } else if (e.Result.Reason == ResultReason.NoMatch) {
-                    message = "NOMATCH: Speech could not be recognized.";
+                    results.Add("default", "NOMATCH: Speech could not be recognized.");
                 }
 
-                QueueOnUpdate(() => { OnRecognitionSuccessful?.Invoke(message); });
+                QueueOnUpdate(() => { OnRecognitionSuccessful?.Invoke(results); });
             };
 
             recognizer.Synthesizing += (s, e) => {
@@ -105,7 +105,6 @@ public class SpeechToTextService : BaseExtensionService {
             await recognizer.StopContinuousRecognitionAsync().ConfigureAwait(false);
         }
 
-        // </TranslationWithMicrophoneAsync>
     }
 
     public void StopRecognition() {
@@ -155,15 +154,4 @@ public class SpeechToTextService : BaseExtensionService {
         }
     }
 
-    private float[] ConvertByteToFloat(byte[] array) {
-        float[] floatArr = new float[array.Length / 4];
-        for (int i = 0; i < floatArr.Length; i++) {
-            if (BitConverter.IsLittleEndian)
-                Array.Reverse(array, i * 4, 4);
-//            floatArr[i] = BitConverter.ToSingle(array, i*4) / 0x80000000;
-            floatArr[i] = BitConverter.ToSingle(array, i * 4);
-        }
-
-        return floatArr;
-    }
 }

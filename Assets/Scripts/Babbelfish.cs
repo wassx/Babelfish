@@ -1,5 +1,5 @@
-﻿using Photon.Pun;
-using UnityEngine;
+﻿using System.Collections.Generic;
+using Photon.Pun;
 using XRTK.Services;
 
 public class Babbelfish : MonoBehaviourPun {
@@ -16,13 +16,12 @@ public class Babbelfish : MonoBehaviourPun {
         _translationService.OnRecognitionSuccessful -= OnTranslationSuccessful;
     }
 
-    private void OnTranslationSuccessful(string result) {
+    private void OnTranslationSuccessful(Dictionary<string, string> results) {
         if (!photonView.IsMine) {
             return;
         }
 
-        _textSyncScript.SetText(result);
-        Debug.LogWarning("Result: " + result);
+        _textSyncScript.SetText(results);
     }
 
     public async void OnStartSpeech() {
