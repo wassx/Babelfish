@@ -13,11 +13,11 @@ public class CubeClickhandler : MonoBehaviour {
 
     public void OnStartListening() {
         _renderer.material.color = _listening;
-        CameraCache.Main.GetComponentInChildren<Babbelfish>().OnStartSpeech();
+        CameraCache.Main.GetComponentInChildren<Babelfish>().OnStartSpeech();
     }
 
     public void OnStopListening() {
         _renderer.material.color = _active;
-        CameraCache.Main.GetComponentInChildren<Babbelfish>().OnStopSpeech();
+        CameraCache.Main.GetComponentInChildren<Babelfish>().OnStopSpeech();
     }
 }

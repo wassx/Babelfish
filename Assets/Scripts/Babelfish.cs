@@ -2,7 +2,7 @@
 using Photon.Pun;
 using XRTK.Services;
 
-public class Babbelfish : MonoBehaviourPun {
+public class Babelfish : MonoBehaviourPun {
     private SpeechToTextService _translationService;
     private TextSync _textSyncScript;
 
