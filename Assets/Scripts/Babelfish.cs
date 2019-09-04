@@ -1,10 +1,13 @@
 ﻿using Photon.Pun;
+using UnityEngine;
 
 public class Babelfish : MonoBehaviourPun {
+    private TextSync _textSync;
 
     private void Start() {
-        // TODO: Get Textsync from object to set text
+        _textSync = GetComponent<TextSync>();
 
+        _textSync.SetText("This is a test");
         // TODO: Get reference to speech to text service
         // TODO: add handlers for successful recognition result
     }
@@ -15,10 +18,14 @@ public class Babelfish : MonoBehaviourPun {
     }
 
     public async void OnStartSpeech() {
+        Debug.Log("Babelfish starts listening.");
+        _textSync.SetText("Babelfish starts listening.");
         // TODO: Start speech recognition by calling service
     }
 
     public void OnStopSpeech() {
+        Debug.Log("Babelfish stops listening.");
+        _textSync.SetText("Babelfish stops listening.");
         // TODO: Stop speech recognition by calling service
     }
 }
