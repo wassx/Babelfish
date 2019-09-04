@@ -71,7 +71,7 @@ namespace Photon {
         }
 
         public void OnStartGameButtonClicked() {
-            string roomName = "MrDevSummitRoom";
+            string roomName = "MrHackfestRoom";
             RoomOptions options = new RoomOptions {MaxPlayers = 8};
             PhotonNetwork.JoinOrCreateRoom(roomName, options, null);
         }
