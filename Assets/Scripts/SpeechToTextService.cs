@@ -14,7 +14,7 @@ public class SpeechToTextService : BaseExtensionService {
     private const string GermanVoice = "Microsoft Server Speech Text to Speech Voice (de-DE, Hedda)";
     
     private readonly SpeechTranslationConfig config =
-        SpeechTranslationConfig.FromSubscription("<id>", "northeurope");
+        SpeechTranslationConfig.FromSubscription("76f89a5ca8dd42cf802bf7173b01359b", "northeurope");
 
     private readonly object _threadLocker = new object();
     private readonly Queue<Action> _dispatchQueue = new Queue<Action>();
@@ -30,8 +30,8 @@ public class SpeechToTextService : BaseExtensionService {
         config.VoiceName = GermanVoice;
 
         config.AddTargetLanguage("de");
-        config.AddTargetLanguage("ar");
-        config.AddTargetLanguage("ja");
+//        config.AddTargetLanguage("ar");
+//        config.AddTargetLanguage("ja");
 
         using (TranslationRecognizer recognizer = new TranslationRecognizer(config)) {
             lock (_threadLocker) {
