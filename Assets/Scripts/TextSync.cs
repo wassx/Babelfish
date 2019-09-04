@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,7 +24,11 @@ public class TextSync : MonoBehaviour, IPunObservable {
         }
     }
 
-    public void SetText(string message) {
+    public void SetText(Dictionary<string, string> results) {
+        string message = "";
+        foreach (string result in results.Values) {
+            message += result + "\n";
+        }
         _text.text = message;
     }
 }

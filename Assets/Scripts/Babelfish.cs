@@ -1,4 +1,5 @@
-﻿using Photon.Pun;
+﻿using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 using XRTK.Services;
 
@@ -9,25 +10,27 @@ public class Babelfish : MonoBehaviourPun {
     private void Start() {
         _textSync = GetComponent<TextSync>();
 
-        _textSync.SetText("This is a test");
         _speechToTextService = MixedRealityToolkit.GetService<SpeechToTextService>();
-        // TODO: add handlers for successful recognition result
+        _speechToTextService.OnTranslationSuccessful += OnTranslationSuccessful;
+    }
+
+    private void OnTranslationSuccessful(Dictionary<string, string> results) {
+        if (!photonView.IsMine) {
+            return;
+        }
+        _textSync.SetText(results);
     }
 
     private void OnDestroy() {
         _speechToTextService.StopRecognizeSpeech();
-        // Remove handler
+        _speechToTextService.OnTranslationSuccessful -= OnTranslationSuccessful;
     }
 
     public async void OnStartSpeech() {
-        Debug.Log("Babelfish starts listening.");
-        _textSync.SetText("Babelfish starts listening.");
         await _speechToTextService.StartRecognizeSpeech();
     }
 
     public void OnStopSpeech() {
-        Debug.Log("Babelfish stops listening.");
-        _textSync.SetText("Babelfish stops listening.");
         _speechToTextService.StopRecognizeSpeech();
     }
 }
