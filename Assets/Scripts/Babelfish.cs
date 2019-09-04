@@ -15,10 +15,10 @@ public class Babelfish : MonoBehaviourPun {
     }
 
     public async void OnStartSpeech() {
-        // Start speech recognition by calling service
+        // TODO: Start speech recognition by calling service
     }
 
     public void OnStopSpeech() {
-        // Stop speech recognition by calling service
+        // TODO: Stop speech recognition by calling service
     }
 }
