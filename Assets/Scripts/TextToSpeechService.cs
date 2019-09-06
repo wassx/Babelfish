@@ -30,14 +30,10 @@ public class TextToSpeechService : BaseExtensionService {
     }
 
     private void PlayAudio(byte[] audio) {
-        int sampleCount = audio.Length / 2;
-        float[] audioData = new float[sampleCount];
-        for (int i = 0; i < sampleCount; ++i) {
-            audioData[i] = (short) (audio[i * 2 + 1] << 8 | audio[i * 2]) / 32768.0F;
-        }
-        
+        float[] audioData = AudioByteConverter.ConvertByteToFloat(audio);
+
         QueueOnUpdate(() => {
-            AudioClip audioClip = AudioClip.Create("SynthesizedAudio", sampleCount, 1, 16000, false);
+            AudioClip audioClip = AudioClip.Create("SynthesizedAudio", audioData.Length, 1, 16000, false);
             audioClip.SetData(audioData, 0);
             AudioSource.PlayClipAtPoint(audioClip, Vector3.zero, 1.0f);
         });
