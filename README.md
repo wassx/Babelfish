@@ -6,7 +6,7 @@ Boilerplate to start for the Hackfest Klagenfurt
 - Download [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/) or [Jetbrains Rider](https://www.jetbrains.com/rider/download/#section=windows)
 - Check your windows version Windows 10 Version 1903 (at least 1809)
 - Create your account (free) on https://azure.microsoft.com/en-us/
-- [Supported language Speech Service](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support#speech-to-text)
+- [Supported languages speech service](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support#speech-to-text)
 
 
 ## Troubleshooting
