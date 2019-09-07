@@ -7,6 +7,7 @@ Boilerplate to start for the Hackfest Klagenfurt
 - Check your windows version Windows 10 Version 1903 (at least 1809)
 - Create your account (free) on https://azure.microsoft.com/en-us/
 - [Supported languages speech service](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support#speech-to-text)
+- [Photon Unity Networking](https://www.photonengine.com)
 
 
 ## Troubleshooting
