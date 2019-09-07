@@ -12,7 +12,7 @@ Boilerplate to start for the Hackfest Klagenfurt
 ## Setting the Photon App Id
 To link this app to your photon cloud service, please create an account at [Photon Unity Networking](https://www.photonengine.com)
 Copy the AppId and paste it into the ServerSettings:
-![alt text](https://github.com/wassx/Babelfish/PhotonAppId.png "Logo Title Text 1")
+![alt text](PhotonAppId.png "Logo Title Text 1")
 
 
 
