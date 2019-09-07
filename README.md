@@ -11,3 +11,4 @@ Boilerplate to start for the Hackfest Klagenfurt
 
 ## Troubleshooting
 NO MATCH error message: Check for your default microphone settings. Let windows assistant fix the setting and try again.
+Check if Cortana and/or Speech Recognition is enabled in Windows Settings
