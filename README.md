@@ -8,6 +8,7 @@ Boilerplate to start for the Hackfest Klagenfurt
 - Create your account (free) on https://azure.microsoft.com/en-us/
 - [Supported languages speech service](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support#speech-to-text)
 - [Photon Unity Networking](https://www.photonengine.com)
+- [Slides](https://www.slideshare.net/StefanWasserbauer/hello-babel-fish-a-mixed-reality-workshop-for-better-communication)
 
 ## Setting the Photon App Id
 To link this app to your photon cloud service, please create an account at [Photon Unity Networking](https://www.photonengine.com)
