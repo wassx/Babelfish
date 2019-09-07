@@ -9,6 +9,12 @@ Boilerplate to start for the Hackfest Klagenfurt
 - [Supported languages speech service](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support#speech-to-text)
 - [Photon Unity Networking](https://www.photonengine.com)
 
+## Setting the Photon App Id
+To link this app to your photon cloud service, please create an account at [Photon Unity Networking](https://www.photonengine.com)
+Copy the AppId and paste it into the ServerSettings:
+![alt text](https://github.com/wassx/Babelfish/PhotonAppId.png "Logo Title Text 1")
+
+
 
 ## Troubleshooting
 NO MATCH error message: Check for your default microphone settings. Let windows assistant fix the setting and try again.
